@@ -1,0 +1,219 @@
+/*Harold is a kidnapper who wrote a ransom note, but now he is worried it will be traced back to him through his handwriting. He found a magazine and wants to know if he can cut out whole words from it and use them to create an untraceable replica of his ransom note. The words in his note are case-sensitive and he must use only whole words available in the magazine. He cannot use substrings or concatenation to create the words he needs.
+
+Given the words in the magazine and the words in the ransom note, print Yes if he can replicate his ransom note exactly using whole words from the magazine; otherwise, print No.
+
+For example, the note is "Attack at dawn". The magazine contains only "attack at dawn". The magazine has all the right words, but there's a case mismatch. The answer is .
+
+Function Description
+
+Complete the checkMagazine function in the editor below. It must print  if the note can be formed using the magazine, or .
+
+checkMagazine has the following parameters:
+
+magazine: an array of strings, each a word in the magazine
+note: an array of strings, each a word in the ransom note
+Input Format
+
+The first line contains two space-separated integers,  and , the numbers of words in the  and the ..
+The second line contains  space-separated strings, each .
+The third line contains  space-separated strings, each .
+
+Constraints
+
+.
+Each word consists of English alphabetic letters (i.e.,  to  and  to ).
+Output Format
+
+Print Yes if he can use the magazine to create an untraceable replica of his ransom note. Otherwise, print No.
+
+Sample Input 0
+
+6 4
+give me one grand today night
+give one grand today
+Sample Output 0
+
+Yes
+Sample Input 1
+
+6 5
+two times three is not four
+two times two is four
+Sample Output 1
+
+No
+Explanation 1
+
+'two' only occurs once in the magazine.
+
+Sample Input 2
+
+7 4
+ive got a lovely bunch of coconuts
+ive got some coconuts
+Sample Output 2
+
+No
+Explanation 2
+
+Harold's magazine is missing the word .
+
+*/
+#include <assert.h>
+#include <limits.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char* readline();
+char** split_string(char*);
+
+// Complete the checkMagazine function below.
+void checkMagazine(int magazine_count, char** magazine, int note_count, char** note) {
+//char *m;
+int x=0,i=0,y=0,flag=1,visited[magazine_count];
+for(int j=0;j<magazine_count;j++)
+{
+    visited[j]=1;
+}
+
+while(i<note_count )
+{
+    x=0;
+    while(x<magazine_count)
+    {
+        if(strcmp(magazine[x],note[i])==0&&visited[x]==1)
+        {
+            visited[x]=0;
+            break;
+        }
+        //printf("m,n %s %s \n",magazine[x], note[i]);
+        x++;
+    }
+    //printf("m,n%d%s%s\n",strlen(note[x]),magazine[0],note[0]);
+    
+    
+    if(x==magazine_count)
+    {   
+        flag=0;
+        printf("No");
+        break;
+    }   
+    i++;
+}
+
+if(flag==1)
+printf("Yes");
+
+}
+
+int main()
+{
+    char** mn = split_string(readline());
+
+    char* m_endptr;
+    char* m_str = mn[0];
+    int m = strtol(m_str, &m_endptr, 10);
+
+    if (m_endptr == m_str || *m_endptr != '\0') { exit(EXIT_FAILURE); }
+
+    char* n_endptr;
+    char* n_str = mn[1];
+    int n = strtol(n_str, &n_endptr, 10);
+
+    if (n_endptr == n_str || *n_endptr != '\0') { exit(EXIT_FAILURE); }
+
+    char** magazine_temp = split_string(readline());
+
+    char** magazine = malloc(m * sizeof(char*));
+
+    for (int i = 0; i < m; i++) {
+        char* magazine_item = *(magazine_temp + i);
+
+        *(magazine + i) = magazine_item;
+    }
+
+    int magazine_count = m;
+
+    char** note_temp = split_string(readline());
+
+    char** note = malloc(n * sizeof(char*));
+
+    for (int i = 0; i < n; i++) {
+        char* note_item = *(note_temp + i);
+
+        *(note + i) = note_item;
+    }
+
+    int note_count = n;
+
+    checkMagazine(magazine_count, magazine, note_count, note);
+
+    return 0;
+}
+
+char* readline() {
+    size_t alloc_length = 1024;
+    size_t data_length = 0;
+    char* data = malloc(alloc_length);
+
+    while (true) {
+        char* cursor = data + data_length;
+        char* line = fgets(cursor, alloc_length - data_length, stdin);
+
+        if (!line) {
+            break;
+        }
+
+        data_length += strlen(cursor);
+
+        if (data_length < alloc_length - 1 || data[data_length - 1] == '\n') {
+            break;
+        }
+
+        alloc_length <<= 1;
+
+        data = realloc(data, alloc_length);
+
+        if (!line) {
+            break;
+        }
+    }
+
+    if (data[data_length - 1] == '\n') {
+        data[data_length - 1] = '\0';
+
+        data = realloc(data, data_length);
+    } else {
+        data = realloc(data, data_length + 1);
+
+        data[data_length] = '\0';
+    }
+
+    return data;
+}
+
+char** split_string(char* str) {
+    char** splits = NULL;
+    char* token = strtok(str, " ");
+
+    int spaces = 0;
+
+    while (token) {
+        splits = realloc(splits, sizeof(char*) * ++spaces);
+
+        if (!splits) {
+            return splits;
+        }
+
+        splits[spaces - 1] = token;
+
+        token = strtok(NULL, " ");
+    }
+
+    return splits;
+}
