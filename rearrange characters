@@ -1,0 +1,76 @@
+/*
+Given a string S, rearrange its characters such that no two adjacent characters are the same.
+Example 1:
+
+Input: S="geeksforgeeks"
+Output: 1
+Explanation:
+All the repeated characters of the given string 
+can be rearranged so that no adjacent characters 
+in the string are equal.
+ 
+
+Example 2:
+
+Input:
+S="bbbabaaacd"
+Output: 1
+ 
+
+Example 3:
+
+Input:
+S="bbbbb"
+Output: 0
+Explanation: 
+Repeated characters in the string cannot be 
+rearranged.
+
+Your Task: 
+You don't need to read input or print anything. Your task is to complete the function rearrangeString() which takes the string S as input parameter, and returns true if the generated string doesn't contains any same adjacent characters, else return false if no such string is possible.
+
+
+Constraints:
+1 <= length of string <= 104
+S contains only lowercase characters.
+*/
+
+
+class Solution
+{
+public:
+    bool rearrangeString(string S)
+    {
+        int max=0,i,j=0,hash[26];
+        for(i=0;i<26;i++)
+        hash[i]=0;
+        for(i=0;i<S.length();i++)
+        {
+            hash[S[i]-'a']++;
+        }
+        for(i=0;i<26;i++)
+        {
+            if(hash[i]>max)
+            {
+                max=hash[i];
+                j=i;
+            }
+        }
+        
+        i=0;
+        while(i<26)
+        {
+            
+            if(hash[i]!=0&&i!=j)
+            {
+               hash[j]=hash[j]-hash[i];
+            }
+            if(hash[j]<2)
+            {
+                return 1;
+            }
+            i++;
+        }
+        return 0;
+    }
+};
