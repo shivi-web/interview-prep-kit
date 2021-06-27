@@ -1,0 +1,37 @@
+//User function Template for Java
+/*class Node{
+    int data;
+    Node left,right;
+    Node(int d)
+    {
+        data=d;
+        left=right=null;
+    }
+}*/
+
+
+class GFG
+{
+    public static Node insertion(Node node,int item){
+        if(node==null){
+            node=new Node(item);
+            return node;
+        }
+        if(node.data<item){
+            node.right=insertion(node.right,item);
+        }
+        else{
+            node.left=insertion(node.left,item);
+        }
+        return node;
+    }
+    public static Node constructTree(int post[],int n)
+    {
+        int r=post[n-1];
+        Node root = new Node(r);
+        for(int i=n-2;i>=0;i--){
+            insertion(root,post[i]);
+        }
+        return root;
+    }
+}
