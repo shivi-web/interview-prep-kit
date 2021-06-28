@@ -1,0 +1,39 @@
+Given a Binary search tree. Your task is to complete the function which will return the Kth largest element without doing any modification in Binary Search Tree.
+
+
+Example 1:
+
+Input:
+      4
+    /   \
+   2     9
+k = 2 
+Output: 4
+
+
+Code:
+class Solution
+{
+    // return the Kth largest element in the given BST rooted at 'root'
+    public int inorder(Node root,int k,ArrayList<Integer> arr){
+        if(root.left!=null){
+        inorder(root.left,k,arr);}
+        arr.add(root.data);
+        if(root.right!=null){
+        inorder(root.right,k,arr);}
+        int x=arr.size();
+        x=x-k;
+        if(x>=0){
+        return(arr.get(x));
+        }
+        //System.out.println(arr+"hii");
+        return 1;
+    }
+    public int kthLargest(Node root,int K)
+    {
+        ArrayList<Integer> arr = new ArrayList<Integer>(); 
+        int res=inorder(root,K,arr);
+        //System.out.println(res+"main");
+        return res;
+    }
+}
