@@ -74,3 +74,31 @@ public:
         return 0;
     }
 };
+
+
+
+
+
+/*--------------------------METHOD 2--------------------------------*/
+class Solution{
+	boolean rearrangeString(String S) {
+	    int[] freqArr = new int[26]; 
+	    for(int i=0;i<S.length();i++){
+	        freqArr[(S.charAt(i)-'a')]++;
+	    }
+	    int max=0;
+	    for(int i=0;i<26;i++){
+	        if(freqArr[i]>max)
+	        {
+	            max=freqArr[i];
+	        }
+	        //System.out.println(max);
+	    }
+	    //System.out.println((S.length()-max)+" "+(S.length()-max+1));
+	    if(S.length()-max>=max||S.length()-max+1>=max){
+	        return true;
+	    }
+	    else {
+	        return false;
+	    }
+     }
